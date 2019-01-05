@@ -1,6 +1,9 @@
-# Creating a Testimonials Block.
+autoscale: true
 
-This group of talks will teach you:
+# [fit] Creating a Testimonials Block.
+
+---
+## This group of talks will teach you:
 
 - Setting up the development environment
 - Setting up a block
@@ -12,22 +15,24 @@ This group of talks will teach you:
 - Other useful features
 
 All the code I'm going to use is here: so you can follow along if you wish.
-
 !!! Git hub link to block file
 
 And all the presention files are located here
-
 !!! Link to the presentation on Git Hub
 
 ---
 
-# All information from this talk has been learnt on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information
+## All information from this talk has been learnt on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information
 
 https://javascriptforwp.com/product/gutenberg-block-development-course/
 
 ---
 
-# Getting started
+
+
+# [fit] Getting started
+
+
 
 ---
 
@@ -62,7 +67,8 @@ If Webpack is similar to Gulp and Grunt why do I need it? It has one advantage f
 
 In your working directory you will also need a package.json file. These will include all the packages you need for your current project. You may not need all of them in every project, but these are the ones we will use for our testimonials block.
 
-```json
+```js
+{
     "@wordpress/babel-preset-default": "^1.2.0", // this is for JSX
     "babel-core": "^6.26.3", // Translates React and JSX into JavaScript
     "babel-eslint": "^8.2.3", // error handling
@@ -78,7 +84,11 @@ In your working directory you will also need a package.json file. These will inc
     "sass-loader": "^6.0.7", // turns sass into css works with node-sass
     "style-loader": "^0.19.1", // adds css to the DOM
     "webpack": "^3.11.0" // Loads Webpack into current project
+}
 ```
+
+---
+## What packages do I need?
 
 !!! Link to example JSON file here.
 
@@ -97,13 +107,14 @@ npm i -D
 ## Webpack Configuration file
 
 We also need to add a webpack configuration file, so it knows where to save and what to do with your files
-
 - In the package.json this line will let webpack know where the main .js file is that needs to be loaded in.
-
 ```json
 "main": "blocks/index.js",
 ```
 The webpack file tells webpack what to do with the files
+
+--- 
+## Webpack Configuration file
 
 For the CSS
 
@@ -124,7 +135,6 @@ For the JS
     './assets/js/frontend.blocks' : './blocks/frontend.js',
   },
 ```
-
 !!! Link to the Webpack Config file
 
 ---
@@ -155,7 +165,9 @@ Create a plugin the same way you would a normal plugin for WordPress.
  */
  ```
 
-Enqueue Scripts and Styles
+---
+
+## Enqueue Scripts and Styles
 
 ```php
 // Enqueue JS and CSS
@@ -163,6 +175,7 @@ include __DIR__ . '/lib/enqueue-scripts.php';
 ```
 
 !!! Link to file
+
 
 ---
 
@@ -175,7 +188,7 @@ include __DIR__ . '/lib/enqueue-scripts.php';
 
 (package.json) - ignore
 (webpack.js)   - ignore
-vt_gutenberg_testimonials.php - plugin file
+`vt_gutenberg_testimonials.php` - plugin file
 
 !!! Link to repro
 
@@ -193,42 +206,23 @@ vt_gutenberg_testimonials.php - plugin file
 
 ---
 
-## Enque JS and CSS files that will be used in the backend only
-
-- editor.blocks.js
-	- This is the JS that will make your blocks work!
-	- Make sure you load the file after all the other Gutenberg script dependancies
-
-- blocks.editor.css
-	- This is CSS that loads in styles that *should not* be loaded on the front end
-	- This is good for styles for error messages, information etc
-
-- Use the 'enqueue_block_editor_assets' hook.
-
+## Backend JS and CSS files
 
 ```php
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets' );
-
 function enqueue_block_editor_assets() {
 
-	// Make paths variables so we don't write em twice ;)
 	$block_path = '/assets/js/editor.blocks.js';
 	$style_path = '/assets/css/blocks.editor.css';
 
-	// Enqueue the bundled block JS file
 	wp_enqueue_script(
 		'testimonial-block-js',
 		_get_plugin_url() . $block_path,
 		array(
-			'wp-editor',
-			'wp-blocks',
-			'wp-i18n',
-			'wp-element',
+			'wp-editor', 'wp-blocks', 'wp-i18n', 'wp-element',
 		),
 		filemtime( _get_plugin_directory() . $block_path )
 	);
-
-	// Enqueue optional editor only styles
 	wp_enqueue_style(
 		'testimonial-block-css',
 		_get_plugin_url() . $style_path,
@@ -240,13 +234,25 @@ function enqueue_block_editor_assets() {
 
 ---
 
-## Enque CSS files that will be used in both the backend and the front end
+## What does this do?
+
+- editor.blocks.js
+	- This is the JS that will make your blocks work!
+	- Make sure you load the file after all the other Gutenberg script dependancies
+
+- blocks.editor.css
+	- This is CSS that loads in styles that *should not* be loaded on the front end
+	- This is good for styles for error messages, information etc
+
+- Use the `enqueue_block_editor_assets` hook.
+
+---
+
+## Front and backend CSS files
 
 - This adds the styles for the block to both the front end and the backend
 	- blocks should look as similar as possible on the front end as on the backend for a good editing experience
-
-- Use the 'enqueue_block_assets' hook
-
+- Use the `enqueue_block_assets` hook
 
 ```php
 add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_assets' );
@@ -264,21 +270,16 @@ function enqueue_assets() {
 
 ---
 
-## Enque JS that will be used on the front end only
+## Front end JS
 
 - This adds JS to the front end only
 	- Good for making things work like carousels, tabs etc
-
 - use the 'enqueue_block_assets' hook and bail if this is being run on the back end.
 
 ```php
 add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
-/**
- * Enqueue frontend JavaScript and CSS assets.
- */
 function enqueue_frontend_assets() {
 
-	// If in the backend, bail out.
 	if ( is_admin() ) {
 		return;
 	}
@@ -305,10 +306,7 @@ function enqueue_frontend_assets() {
 index.js      - Import all your block here.
 frontend.js   - Import all JS files that only display on the front end here.
 
-
-### Don't forget to import all your blocks into the main index.js file as they will not be compiled into the final output until you do.
-
-index.js:
+*Don't forget to import all your blocks into the main index.js file as they will not be compiled into the final output until you do.*
 
 ```js
 
@@ -342,9 +340,7 @@ Import Gutenberg dependancies that are required in the file.
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 ```
-
 These are the two basic depenancies that you will need for every block, there are many others that we will look at later.
-
 - registerBlockType is pulled in from wp.blocks. This allows you to register your block
 - __ is pulled in from the wp.i18n library. This allows all your text strings to be translated.
 
@@ -382,7 +378,7 @@ export default registerBlockType(
 - The second part is your individual block name
 	- This must be different across all your blocks
 
-### Gotchas
+*Gotchas*
 
 - Block names must contain a namespace and be in the namespace/blockname format
 - Blocknames can only lowercase alphanumerical letters.
@@ -422,11 +418,7 @@ export default registerBlockType(
 
 - This is the section the block will appear. Possible options are:
 
-	- common
-	- widget
-	- formatting
-	- layout
-	- embeds
+	- common | widget | formatting | layout | embeds
 
 !!! Need to check exact wording here.
 
@@ -459,19 +451,21 @@ export default registerBlockType(
 );
 ```
 
-### Icons can be either:
+---
+
+## Icons can be either:
 
 - A Gravatar
 
 ```js
 icon: 'admin-site',
 ```
- - a JSX svg icon
+ - An JSX svg icon
 
  ```jsx
-	<svg width="20px" height="20px" viewBox="0 0 384 512">
-		<path d="M320 0H64C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm32 448c0 17.6-14.4 32-32 32H64c-17.6 0-32-14.4-32-32V64c0-17.6 14.4-32 32-32h256c17.6 0 32 14.4 32 32v384zM192 288c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80zm0-128c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zm46.8 144c-19.5 0-24.4 7-46.8 7s-27.3-7-46.8-7c-21.2 0-41.8 9.4-53.8 27.4C84.2 342.1 80 355 80 368.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-14 9-32.9 33.2-32.9 12.4 0 20.8 7 46.8 7 25.9 0 34.3-7 46.8-7 24.3 0 33.2 18.9 33.2 32.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-13.9-4.2-26.8-11.4-37.5-12.1-18-32.7-27.4-53.8-27.4z"/>
-	</svg>
+<svg width="20px" height="20px" viewBox="0 0 384 512">
+	<path d="M320 0H64C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm32 448c0 17.6-14.4 32-32 32H64c-17.6 0-32-14.4-32-32V64c0-17.6 14.4-32 32-32h256c17.6 0 32 14.4 32 32v384zM192 288c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80zm0-128c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zm46.8 144c-19.5 0-24.4 7-46.8 7s-27.3-7-46.8-7c-21.2 0-41.8 9.4-53.8 27.4C84.2 342.1 80 355 80 368.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-14 9-32.9 33.2-32.9 12.4 0 20.8 7 46.8 7 25.9 0 34.3-7 46.8-7 24.3 0 33.2 18.9 33.2 32.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-13.9-4.2-26.8-11.4-37.5-12.1-18-32.7-27.4-53.8-27.4z"/>
+</svg>
  ```
 
 ---
@@ -520,8 +514,6 @@ export default registerBlockType(
 		attributes: {
 			attr: {
 				type: 'array',
-				source: 'children',
-				selector: 'h2',
 			},
 		},
 	}
