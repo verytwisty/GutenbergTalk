@@ -319,30 +319,136 @@ import "./Block-Name";
 # Basic Block Architecture
 
 ---
-## Import Block dependancies
-
-Import code from scss files and other js files that is used by the block.
 
 ```js
 import './editor.scss';
 import './style.scss';
-import icon from './icon';
-```
 
-!!! Link to file
-
----
-## Import Block Libraries
-
-Import Gutenberg dependancies that are required in the file.
-
-```js
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
 ```
+[.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+---
+
+[.code-highlight: 1-2]
+
+```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
+```
+[.footer: **Import Block dependancies**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^Import Block dependancies
+Import code from scss files and other js files that is used by the block.
+
+---
+
+[.code-highlight: 4-5]
+
+```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
+```
+[.footer: **Import Block dependancies**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^Import Block Libraries
+Import Gutenberg dependancies that are required in the file.
 These are the two basic depenancies that you will need for every block, there are many others that we will look at later.
 - registerBlockType is pulled in from wp.blocks. This allows you to register your block
 - __ is pulled in from the wp.i18n library. This allows all your text strings to be translated.
+
+---
+
+## Example of translatable String
+
 
 ```
 
@@ -352,179 +458,488 @@ __('This string is ready for translations in the .pot file', '_vt');
 
 ---
 
-## create the block
+[.code-highlight: 7, 32 ]
 
-This exports the block ready for import into your main index.js file. All your block code will be within this:
+```js
+import './editor.scss';
+import './style.scss';
 
-```jsx
-export default registerBlockType(
-
-);
-```
-
----
-## Block Name
-
-```jsx
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
 export default registerBlockType(
 	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
 );
-
 ```
+[.footer: **Import Block dependancies**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
+^create the block
+This exports the block ready for import into your main index.js file. All your block code will be within this:
+
+---
+
+[.code-highlight: 8 ]
+
+```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
+```
+[.footer: **Block Name**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^
 - The first part is the name space - important this is unique as we don't want this to conflict with other blocks
 	- The name space can be the same across all your blocks
 - The second part is your individual block name
 	- This must be different across all your blocks
 
-*Gotchas*
+---
+
+## Gotchas
 
 - Block names must contain a namespace and be in the namespace/blockname format
 - Blocknames can only lowercase alphanumerical letters.
 
 ---
 
+[.code-highlight: 10 ]
+
+```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
+```
+[.footer: **Title**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+
+^ User readable short title, best 2-3 words max
+
+---
+
 ## Title
 
-- User readable short title, best 2-3 words max
+!!! Image of title here
+
+---
+
+[.code-highlight: 11 ]
 
 ```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
 export default registerBlockType(
 	'namespace/blockname',
 	{
-		title: __('Name the user will see', '_vt'),
-	}
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
 );
 ```
 
----
-## Description
+[.footer: **Description**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
+^ 
 - Description of the block, this will appear on the side bar when the user selects the block
 
+---
+
+## Description
+
+!!! Image of description here
+
+---
+
+[.code-highlight: 12 ]
+
 ```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
 export default registerBlockType(
 	'namespace/blockname',
 	{
-		title: __('Name the user will see', '_vt'),
+		title: __('Block Name', '_vt'),
 		description: __('Description of the block', '_vt'),
-	}
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
 );
 ```
 
+[.footer: **Category**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^ 
+- This is the section the block will appear. Possible options are:
+- common | widget | formatting | layout | embeds
+
 ---
+
 ## Category
 
-- This is the section the block will appear. Possible options are:
-
-	- common | widget | formatting | layout | embeds
-
-!!! Need to check exact wording here.
-
-```js
-export default registerBlockType(
-	'namespace/blockname',
-	{
-		title: __('Name the user will see', '_vt'),
-		description: __('Description of the block', '_vt'),
-		category: 'common',
-	}
-);
-```
+!!! Category Image here
 
 ---
-## Icon
 
-This is the icon that will be displayed in the editor.
-
+[.code-highlight: 13 ]
 
 ```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
 export default registerBlockType(
 	'namespace/blockname',
 	{
-		title: __('Name the user will see', '_vt'),
+		title: __('Block Name', '_vt'),
 		description: __('Description of the block', '_vt'),
 		category: 'common',
-		icon: dashicon || svgIcon
-	}
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
 );
 ```
+
+[.footer: **Icon**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^ This is the icon that will be displayed in the editor.
 
 ---
 
 ## Icons can be either:
 
-- A Gravatar
+- A Dashicon
+- An JSX svg icon
 
 ```js
 icon: 'admin-site',
-```
- - An JSX svg icon
 
- ```jsx
-<svg width="20px" height="20px" viewBox="0 0 384 512">
-	<path d="M320 0H64C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm32 448c0 17.6-14.4 32-32 32H64c-17.6 0-32-14.4-32-32V64c0-17.6 14.4-32 32-32h256c17.6 0 32 14.4 32 32v384zM192 288c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80zm0-128c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zm46.8 144c-19.5 0-24.4 7-46.8 7s-27.3-7-46.8-7c-21.2 0-41.8 9.4-53.8 27.4C84.2 342.1 80 355 80 368.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-14 9-32.9 33.2-32.9 12.4 0 20.8 7 46.8 7 25.9 0 34.3-7 46.8-7 24.3 0 33.2 18.9 33.2 32.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-13.9-4.2-26.8-11.4-37.5-12.1-18-32.7-27.4-53.8-27.4z"/>
-</svg>
+icon: <svg width="20px" height="20px" viewBox="0 0 384 512">
+	<path d="M320 0H64C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm32 448c0 17.6-14.4 
+	32-32 32H64c-17.6 0-32-14.4-32-32V64c0-17.6 14.4-32 32-32h256c17.6 0 32 14.4 32 32v384zM192 288c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 
+	35.8-80 80 35.8 80 80 80zm0-128c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zm46.8 144c-19.5 0-24.4 
+	7-46.8 7s-27.3-7-46.8-7c-21.2 0-41.8 9.4-53.8 27.4C84.2 342.1 80 355 80 368.9V408c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-39.1c0-14 9-32.9 
+	33.2-32.9 12.4 0 20.8 7 46.8 7 25.9 0 34.3-7 46.8-7 24.3 0 33.2 18.9 33.2 32.9V408c0 4.4 3.6 8 8 8h16c4.4 0 
+	8-3.6 8-8v-39.1c0-13.9-4.2-26.8-11.4-37.5-12.1-18-32.7-27.4-53.8-27.4z"/>
+</svg>,
  ```
 
+[.footer: convert svg to JSX with this: https://svg2jsx.herokuapp.com/]
+
 ---
+
+[.code-highlight: 14-18 ]
+
+```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
+```
+
+[.footer: **Keywords**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^ Key words can help the user find your block when they search for them in the search field
+
+---
+
 ## Keywords
 
-Key words can help the user find your block when they search for them in the search field
-
-```js
-export default registerBlockType(
-	'namespace/blockname',
-	{
-		title: __('Name the user will see', '_vt'),
-		description: __('Description of the block', '_vt'),
-		category: 'common',
-		icon: dashicon || svgIcon
-		keywords: [
-			__( 'Key Word 1', '_vt' ),
-			__( 'Key Word 2', '_vt' ),
-			__( 'Key Word 3', '_vt' ),
-
-		],
-	}
-);
-```
+!!! Search Image here
 
 ---
 
-## Attributes (not needed for static blocks)
-
-This is like 'State' in react and are where the information is stored that the user enters before it is saved into the Database.
+[.code-highlight: 19-24 ]
 
 ```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
 export default registerBlockType(
 	'namespace/blockname',
 	{
-		title: __('Name the user will see', '_vt'),
+		title: __('Block Name', '_vt'),
 		description: __('Description of the block', '_vt'),
 		category: 'common',
-		icon: dashicon || svgIcon
+		icon: dashicon || svgIcon,
 		keywords: [
 			__( 'Key Word 1', '_vt' ),
 			__( 'Key Word 2', '_vt' ),
 			__( 'Key Word 3', '_vt' ),
-
 		],
-		attributes: {
-			attr: {
-				type: 'array',
-			},
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
 		},
-	}
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
 );
 ```
 
----
-
-## edit
-
-
+[.footer: **Edit**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
 ---
-## save
+
+## Edit
+
+Screenshot of block with html
+
+---
+
+[.code-highlight: 25-30 ]
+
+```js
+import './editor.scss';
+import './style.scss';
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
+export default registerBlockType(
+	'namespace/blockname',
+	{
+		title: __('Block Name', '_vt'),
+		description: __('Description of the block', '_vt'),
+		category: 'common',
+		icon: dashicon || svgIcon,
+		keywords: [
+			__( 'Key Word 1', '_vt' ),
+			__( 'Key Word 2', '_vt' ),
+			__( 'Key Word 3', '_vt' ),
+		],
+		edit: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Back End </div>
+			);
+		},
+		save: props => {
+			const { className } = props;
+			return (
+				<div className={ className }>Block Front End</div>
+			);
+		},
+	},
+);
+```
+
+[.footer: **Save**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+---
+
+## Save
+
+Screenshot of block with html
+
+---
+
+![](blocks.png)
+
+---
+
+```js
+edit: props => {
+	const { className, isSelected } = props;
+	return (
+		<div className={ className }>
+			<div className="image">
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/austin-distel-675050-unsplash.jpg" />
+			</div>
+			<div className="info">
+				<h2>Joe Bloggs</h2>
+				<h3>Superstar CEO at <a href="https://dog.ceo/">dog.ceo</a></h3>
+				<div className="text">
+					<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+					Aenean lacinia bibendum nulla sed consectetur. </p>
+					<p>Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum 
+					nulla sed consectetur. </p>
+				</div>
+			</div>
+			{
+				isSelected && (
+					<div className="warn"><p>Sorry you can't edit this block</p></div>
+				)
+			}
+		</div>
+	);
+},
+```
