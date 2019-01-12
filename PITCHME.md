@@ -15,84 +15,50 @@ autoscale: true
 - Other useful features
 
 All the code I'm going to use is here: so you can follow along if you wish.
-!!! Git hub link to block file
+https://github.com/verytwisty/vt_gutenberg_testimonials
 
 And all the presention files are located here
-!!! Link to the presentation on Git Hub
+https://github.com/verytwisty/GutenbergTalk
+
+^ Show the example editable block
 
 ---
 
-## All information from this talk has been learnt on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information
-
-https://javascriptforwp.com/product/gutenberg-block-development-course/
-
----
-
-
-
-# [fit] Getting started
-
+# Getting started
 
 
 ---
 
-## Installing NPM
+## Development Environment
 
+**Node and NPM**
 NPM is a package manager that lets you install the packages and dependancies you need to have a working development environment.
 
-Node.js and NPM are installed together - to install them go here and download the files:
-
-https://nodejs.org/en/
-
-You also need to install webpack globally.
-
-```
-npm install --save-dev webpack
-```
-
----
-## What is Webpack
-
+**Webpack**
 Webpack is a bundler / task runner that was originally designed for packaging up Javascript files, but has been extended with modules run sass and other files. It is similar to gulp and grunt in that you can use it to take your raw files and it will run tasks including error linting and minification and export production ready code.
 
-https://webpack.js.org/
 
 ---
-## Why do I need Webpack?
 
-If Webpack is similar to Gulp and Grunt why do I need it? It has one advantage for Javascript in that if you have an index.js and include all the JS files in there in the order you want them to load, webpack will concatinate and minify them in the order you specify. Gulp and Grunt don't concatinate files in this way, so you could potentially end up with dependancy errors if the JS files are concatinated in the wrong order.
+## Getting set up
+
+**NPM**
+https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+**Webpack**
+https://webpack.js.org/guides/installation/
 
 ---
+
 ## What packages do I need?
 
-In your working directory you will also need a package.json file. These will include all the packages you need for your current project. You may not need all of them in every project, but these are the ones we will use for our testimonials block.
+![right fit](img/folder-layout.png)
 
-```js
-{
-    "@wordpress/babel-preset-default": "^1.2.0", // this is for JSX
-    "babel-core": "^6.26.3", // Translates React and JSX into JavaScript
-    "babel-eslint": "^8.2.3", // error handling
-    "babel-loader": "^7.1.4", // Allows transpiling JavaScript files
-    "classnames": "^2.2.6", // lets you add more than one classname in React
-    "cross-env": "^5.1.5", // Makes the dev environment work on PCs as well as Macs
-    "css-loader": "^0.28.11", // loads css
-    "eslint": "^4.19.1", // JS error handling
-    "extract-text-webpack-plugin": "^3.0.2", // compiles files css into one main css file
-    "node-sass": "^4.9.0", // compiles sass to css
-    "postcss-loader": "^2.1.5", // loads postcss which automagically adds vendor prefixes to css
-    "raw-loader": "^0.5.1", // A loader for webpack that allows importing files as a String works with sass loader
-    "sass-loader": "^6.0.7", // turns sass into css works with node-sass
-    "style-loader": "^0.19.1", // adds css to the DOM
-    "webpack": "^3.11.0" // Loads Webpack into current project
-}
-```
+**package.json**
+https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/package.json
 
----
-## What packages do I need?
-
-!!! Link to example JSON file here.
-
-Save this in the root of your working folder and then install all the packages in the list.
+**webpack.config.js**
+https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/webpack.config.js
 
 In the terminal 
 
@@ -103,39 +69,12 @@ npm i -D
 
 ```
 
----
-## Webpack Configuration file
 
-We also need to add a webpack configuration file, so it knows where to save and what to do with your files
-- In the package.json this line will let webpack know where the main .js file is that needs to be loaded in.
-```json
-"main": "blocks/index.js",
-```
-The webpack file tells webpack what to do with the files
 
---- 
-## Webpack Configuration file
-
-For the CSS
-
-```js
-const blocksCSSPlugin = new ExtractTextPlugin( {
-  filename: './assets/css/blocks.style.css',
-} );
-const editBlocksCSSPlugin = new ExtractTextPlugin( {
-  filename: './assets/css/blocks.editor.css',
-} );
-```
-
-For the JS
-
-```js
-  entry: {
-    './assets/js/editor.blocks' : './blocks/index.js',
-    './assets/js/frontend.blocks' : './blocks/frontend.js',
-  },
-```
-!!! Link to the Webpack Config file
+^
+In your working directory you will also need a package.json file. These will include all the packages you need for your current project. You may not need all of them in every project, but these are the ones we will use for our testimonials block.
+We also need to add a webpack configuration file, so it knows where to save and what to do with your files, we won't worry about this for now, but it is set up for this project so you can play around with it
+To install all the packages for this project go to the folder in the terminal and type in npm i -D, which installs everything in the working folder (not globally)
 
 ---
 ## Sumblime text users
@@ -149,8 +88,9 @@ https://packagecontrol.io/packages/Babel
 ---
 ## Creating a plugin.
 
-Create a plugin the same way you would a normal plugin for WordPress.
-```
+
+
+```php
 /**
  * Plugin Name: Gutenberg Testimonials
  * Plugin URI:  https://github.com/verytwisty/vt_gutenberg_testimonials
@@ -163,156 +103,141 @@ Create a plugin the same way you would a normal plugin for WordPress.
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
- ```
 
----
-
-## Enqueue Scripts and Styles
-
-```php
 // Enqueue JS and CSS
 include __DIR__ . '/lib/enqueue-scripts.php';
-```
+ ```
+[.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/vt_gutenberg_testimonials.php`]
 
-!!! Link to file
-
-
----
-
-## Folder Structure (optional)
-
--> assets   - concatinated js, css and img files that will be loaded by WP
--> blocks   - Raw React and Sass files you will be working on
--> lib      - PHP files you may need to add in functionality.
--> (node_modules) - ignore
-
-(package.json) - ignore
-(webpack.js)   - ignore
-`vt_gutenberg_testimonials.php` - plugin file
-
-!!! Link to repro
-
----
-## Enqueing the js and sass
-
-3 functions in this file:
-
-- Enque JS and CSS files that will be used in the backend only
-- Enque CSS files that will be used in both the backend and the front end
-- Enque JS that will be used on the front end only
-
-
-!!! Link to file
+^ 
+Create a plugin the same way you would a normal plugin for WordPress.
 
 ---
 
 ## Backend JS and CSS files
 
+[.code-highlight: 1-7]
+
 ```php
-add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets' );
+add_action( 'enqueue_block_editor_assets', 'enqueue_block_editor_assets' );
+
 function enqueue_block_editor_assets() {
 
-	$block_path = '/assets/js/editor.blocks.js';
-	$style_path = '/assets/css/blocks.editor.css';
-
-	wp_enqueue_script(
-		'testimonial-block-js',
-		_get_plugin_url() . $block_path,
-		array(
-			'wp-editor', 'wp-blocks', 'wp-i18n', 'wp-element',
-		),
-		filemtime( _get_plugin_directory() . $block_path )
-	);
-	wp_enqueue_style(
-		'testimonial-block-css',
-		_get_plugin_url() . $style_path,
-		[ ],
-		filemtime( _get_plugin_directory() . $style_path )
-	);
+	wp_enqueue_script( 'testimonial-block-js', _get_plugin_url() . '/assets/js/editor.blocks.js', array( 'wp-editor', 'wp-blocks', 'wp-i18n', 'wp-element'), '1.0');
+	wp_enqueue_style( 'testimonial-block-css', _get_plugin_url() . '/assets/css/blocks.editor.css', [ ], '1.0' );
 }
-```
 
----
-
-## What does this do?
-
-- editor.blocks.js
-	- This is the JS that will make your blocks work!
-	- Make sure you load the file after all the other Gutenberg script dependancies
-
-- blocks.editor.css
-	- This is CSS that loads in styles that *should not* be loaded on the front end
-	- This is good for styles for error messages, information etc
-
-- Use the `enqueue_block_editor_assets` hook.
-
----
-
-## Front and backend CSS files
-
-- This adds the styles for the block to both the front end and the backend
-	- blocks should look as similar as possible on the front end as on the backend for a good editing experience
-- Use the `enqueue_block_assets` hook
-
-```php
-add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_assets' );
+add_action( 'enqueue_block_assets', 'enqueue_assets' );
 
 function enqueue_assets() {
-	$style_path = '/assets/css/blocks.style.css';
-	wp_enqueue_style(
-		'testimonial-block',
-		_get_plugin_url() . $style_path,
-		null,
-		filemtime( _get_plugin_directory() . $style_path )
-	);
+
+	wp_enqueue_style( 'testimonial-block', _get_plugin_url() . '/assets/css/blocks.style.css', [ ], '1.0' );
 }
-```
 
----
-
-## Front end JS
-
-- This adds JS to the front end only
-	- Good for making things work like carousels, tabs etc
-- use the 'enqueue_block_assets' hook and bail if this is being run on the back end.
-
-```php
 add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
+
 function enqueue_frontend_assets() {
 
 	if ( is_admin() ) {
 		return;
 	}
-
-	$block_path = '/assets/js/frontend.blocks.js';
-	wp_enqueue_script(
-		'testimonial-block-frontend',
-		_get_plugin_url() . $block_path,
-		[],
-		filemtime( _get_plugin_directory() . $block_path )
-	);
+	wp_enqueue_script( 'testimonial-js-frontend', _get_plugin_url() . '/assets/js/frontend.blocks.js', [], '1.0' );
 }
+
 ```
+
+^ 3 functions in this file:
+- Enque JS and CSS files that will be used in the backend only
+- Enque CSS files that will be used in both the backend and the front end
+- Enque JS that will be used on the front end only
+
+^ `enqueue_block_editor_assets` Hook
+- editor.blocks.js
+	- This is the JS that will make your blocks work!
+	- Make sure you load the file after all the other Gutenberg script dependancies
+- blocks.editor.css
+	- This is CSS that loads in styles that *should not* be loaded on the front end
+	- This is good for styles for error messages, information etc
 
 ---
 
-## Basic Block File Structure
+## Front & Back End CSS
 
--> Block-Name 
-	-> index.js     - This is where the React code for the Block Goes
-	-> style.scss   - This is where the main styles for the Block Goes (front and backend)
-	-> editor.scss  - This is where the editor styles for the Block Goes
+[.code-highlight: 9-14]
 
-index.js      - Import all your block here.
-frontend.js   - Import all JS files that only display on the front end here.
+```php
+add_action( 'enqueue_block_editor_assets', 'enqueue_block_editor_assets' );
 
-*Don't forget to import all your blocks into the main index.js file as they will not be compiled into the final output until you do.*
+function enqueue_block_editor_assets() {
 
-```js
+	wp_enqueue_script( 'testimonial-block-js', _get_plugin_url() . '/assets/js/editor.blocks.js', array( 'wp-editor', 'wp-blocks', 'wp-i18n', 'wp-element'), '1.0');
+	wp_enqueue_style( 'testimonial-block-css', _get_plugin_url() . '/assets/css/blocks.editor.css', [ ], '1.0' );
+}
 
-import "./Block-Name";
+add_action( 'enqueue_block_assets', 'enqueue_assets' );
+
+function enqueue_assets() {
+
+	wp_enqueue_style( 'testimonial-block', _get_plugin_url() . '/assets/css/blocks.style.css', [ ], '1.0' );
+}
+
+add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
+
+function enqueue_frontend_assets() {
+
+	if ( is_admin() ) {
+		return;
+	}
+	wp_enqueue_script( 'testimonial-js-frontend', _get_plugin_url() . '/assets/js/frontend.blocks.js', [], '1.0' );
+}
 
 ```
+
+^ `enqueue_block_assets` hook
+- This adds the styles for the block to both the front end and the backend
+	- blocks should look as similar as possible on the front end as on the backend for a good editing experience
+
+
+
+---
+
+## Front end JS
+
+[.code-highlight: 16-24]
+
+```php
+add_action( 'enqueue_block_editor_assets', 'enqueue_block_editor_assets' );
+
+function enqueue_block_editor_assets() {
+
+	wp_enqueue_script( 'testimonial-block-js', _get_plugin_url() . '/assets/js/editor.blocks.js', array( 'wp-editor', 'wp-blocks', 'wp-i18n', 'wp-element'), '1.0');
+	wp_enqueue_style( 'testimonial-block-css', _get_plugin_url() . '/assets/css/blocks.editor.css', [ ], '1.0' );
+}
+
+add_action( 'enqueue_block_assets', 'enqueue_assets' );
+
+function enqueue_assets() {
+
+	wp_enqueue_style( 'testimonial-block', _get_plugin_url() . '/assets/css/blocks.style.css', [ ], '1.0' );
+}
+
+add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
+
+function enqueue_frontend_assets() {
+
+	if ( is_admin() ) {
+		return;
+	}
+	wp_enqueue_script( 'testimonial-js-frontend', _get_plugin_url() . '/assets/js/frontend.blocks.js', [], '1.0' );
+}
+
+```
+
+^ enqueue_block_editor_assets
+- This adds JS to the front end only
+	- Good for making things work like carousels, tabs etc
+- use the 'enqueue_block_assets' hook and bail if this is being run on the back end.
+
 
 --- 
 
@@ -597,9 +522,8 @@ export default registerBlockType(
 
 ---
 
-## Title
 
-!!! Image of title here
+![70%](img/block-name.png)
 
 ---
 
@@ -647,9 +571,8 @@ export default registerBlockType(
 
 ---
 
-## Description
 
-!!! Image of description here
+![80%](img/block-description.png)
 
 ---
 
@@ -698,9 +621,7 @@ export default registerBlockType(
 
 ---
 
-## Category
-
-!!! Category Image here
+![80%](img/block-category.png)
 
 ---
 
@@ -812,9 +733,7 @@ export default registerBlockType(
 
 ---
 
-## Keywords
-
-!!! Search Image here
+![80%](img/block-keywords.png)
 
 ---
 
@@ -857,11 +776,12 @@ export default registerBlockType(
 
 [.footer: **Edit**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
+^ To use JSX you need to have Bable installed, otherwise you'll have to create the markup using react or JavaScript
+
 ---
 
-## Edit
 
-Screenshot of block with html
+![fit](img/block-backend.png)
 
 ---
 
@@ -906,13 +826,14 @@ export default registerBlockType(
 
 ---
 
-## Save
 
-Screenshot of block with html
+![fit](img/block-frontend.png)
 
 ---
 
-![](blocks.png)
+# Static Testimonial Block
+
+^ Switch screen to show the block in situ
 
 ---
 
@@ -922,17 +843,145 @@ edit: props => {
 	return (
 		<div className={ className }>
 			<div className="image">
-				<img src="/wp-content/plugins/vt_testimonials/assets/images/austin-distel-675050-unsplash.jpg" />
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/David-Brent.jpg" />
 			</div>
 			<div className="info">
-				<h2>Joe Bloggs</h2>
-				<h3>Superstar CEO at <a href="https://dog.ceo/">dog.ceo</a></h3>
+				<h2>David Brent</h2>
+				<h3>General Manager</h3>
 				<div className="text">
-					<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
-					Aenean lacinia bibendum nulla sed consectetur. </p>
-					<p>Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum 
-					nulla sed consectetur. </p>
+					<p>People see me, and they see the suit, and they go: 'you're not 
+					fooling anyone', they know I'm rock and roll through and through.</p> 
+					<p>But you know that old thing, live fast, die young? Not my way. 
+					Live fast, sure, live too bloody fast sometimes, but die young? Die old.</p>
 				</div>
+				<a href="https://www.wernham-hogg-limited.com" className="website">Wernham Hogg</a>
+			</div>
+			{
+				isSelected && (
+					<div className="warn"><p>Sorry you can't edit this block</p></div>
+				)
+			}
+		</div>
+	);
+},
+
+```
+
+[.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
+
+^ The First Block we are going to make is a Static Block that is not editable by the user
+
+---
+
+[.code-highlight: 2 ]
+
+```js
+edit: props => {
+	const { className, isSelected } = props;
+	return (
+		<div className={ className }>
+			<div className="image">
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/David-Brent.jpg" />
+			</div>
+			<div className="info">
+				<h2>David Brent</h2>
+				<h3>General Manager</h3>
+				<div className="text">
+					<p>People see me, and they see the suit, and they go: 'you're not 
+					fooling anyone', they know I'm rock and roll through and through.</p> 
+					<p>But you know that old thing, live fast, die young? Not my way. 
+					Live fast, sure, live too bloody fast sometimes, but die young? Die old.</p>
+				</div>
+				<a href="https://www.wernham-hogg-limited.com" className="website">Wernham Hogg</a>
+			</div>
+			{
+				isSelected && (
+					<div className="warn"><p>Sorry you can't edit this block</p></div>
+				)
+			}
+		</div>
+	);
+},
+
+```
+
+[.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
+
+^ First we pull in the props (or properties) of our new Block. This structure allows you to call named variables in the props object to refer back to. It is the same as writing props.className
+
+---
+
+## Let's Talk Props
+
+**JavaScript Object**
+attributes: {} // where to store variables 
+
+**Generated Strings**
+className: "wp-block-testimonials-static" // Unique Class Name so styles don't conflict
+clientId: "2e1f42d4-9c2f-434a-9b68-b037a545c438"
+name: "testimonials/static"
+
+**Bolean**
+isSelected: false // If the block is selected or not
+isSelectionEnabled: true
+
+**Functions**
+insertBlocksAfter: ƒ ()
+mergeBlocks: ƒ ()
+onReplace: ƒ ()
+setAttributes: ƒ () // function to call to set variables
+toggleSelection: ƒ ()
+
+--- 
+
+## JavaScript Dot Notation
+
+```js
+props{
+	attributes: {},
+	className: "wp-block-testimonials-static",
+	clientId: "2e1f42d4-9c2f-434a-9b68-b037a545c438",
+	insertBlocksAfter: ƒunction( ... ),
+	isSelected: false,
+	isSelectionEnabled: true,
+	mergeBlocks: ƒunction( ... ),
+	name: "testimonials/static",
+	onReplace: ƒunction( ... ),
+	setAttributes: ƒunction( ... ),
+	toggleSelection: ƒunction( ... ),
+}
+```
+
+```
+{ className } = props
+
+props.className === className;
+
+
+```
+
+---
+
+[.code-highlight: 3-25 ]
+
+```js
+edit: props => {
+	const { className, isSelected } = props;
+	return (
+		<div className={ className }>
+			<div className="image">
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/David-Brent.jpg" />
+			</div>
+			<div className="info">
+				<h2>David Brent</h2>
+				<h3>General Manager</h3>
+				<div className="text">
+					<p>People see me, and they see the suit, and they go: 'you're not 
+					fooling anyone', they know I'm rock and roll through and through.</p> 
+					<p>But you know that old thing, live fast, die young? Not my way. 
+					Live fast, sure, live too bloody fast sometimes, but die young? Die old.</p>
+				</div>
+				<a href="https://www.wernham-hogg-limited.com" className="website">Wernham Hogg</a>
 			</div>
 			{
 				isSelected && (
@@ -943,3 +992,98 @@ edit: props => {
 	);
 },
 ```
+
+[.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
+
+^ Everything within the return statement is what will be displayed in the Gutenberg backend - this is the JSX / HTML 
+
+---
+
+## Gotchas when writing JSX
+
+- If you forget a closing tag, the build will fail
+- Class is a protected word in JS, use className instead
+- You can write JS and call variables within curly braces in the JSX ` { javascript }`
+- All the JSX must be contained within one parent element - no adjacent elements
+
+```html
+**This is allowed**
+<div className="container">
+	<div className="another-container"></div>
+	<div className="another-container"></div>
+</div>
+
+**This is will error**
+<div className="another-container"></div>
+<div className="another-container"></div>
+```
+
+---
+
+[.code-highlight: 19-23 ]
+
+```js
+edit: props => {
+	const { className, isSelected } = props;
+	return (
+		<div className={ className }>
+			<div className="image">
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/David-Brent.jpg" />
+			</div>
+			<div className="info">
+				<h2>David Brent</h2>
+				<h3>General Manager</h3>
+				<div className="text">
+					<p>People see me, and they see the suit, and they go: 'you're not 
+					fooling anyone', they know I'm rock and roll through and through.</p> 
+					<p>But you know that old thing, live fast, die young? Not my way. 
+					Live fast, sure, live too bloody fast sometimes, but die young? Die old.</p>
+				</div>
+				<a href="https://www.wernham-hogg-limited.com" className="website">Wernham Hogg</a>
+			</div>
+			{
+				isSelected && (
+					<div className="warn"><p>Sorry you can't edit this block</p></div>
+				)
+			}
+		</div>
+	);
+},
+```
+
+[.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
+
+^ The Block can look different when the user has selected the block - this can be useful for adding information or displaying information
+
+---
+
+## Confusing Syntax?
+
+- {} denotes there will be some JS
+- `isSelected &&` is equivalent to `if( isSelected == true )`
+- () denotes that there will be some JSX to display if the condition is met
+
+
+```js
+{
+	isSelected && (
+		<div className="warn"><p>Sorry you can't edit this block</p></div>
+	)
+}
+```
+
+---
+
+## All information from this talk has been learnt on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information
+
+https://javascriptforwp.com/product/gutenberg-block-development-course/
+
+---
+
+## Resources
+
+[Gutenberg starter theme](https://github.com/ahmadawais/create-guten-block)
+[Gutenberg block reference ](https://wp-storybook.netlify.com/?selectedKind=Components%7CBaseControl&selectedStory=Basic&full=0&addons=1&stories=1&panelRight=1&addonPanel=storybook%2Factions%2Factions-panel)
+[Coding a Custom Block Type for Gutenberg Block Editor (video) ](https://www.youtube.com/watch?v=Mv68Sa-iHyo&feature=youtu.be)
+[WordPress Webinar: Building your First Gutenberg Block (video) ](https://www.youtube.com/watch?v=2wM6VyJ9Dp4)
+
