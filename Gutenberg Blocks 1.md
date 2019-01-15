@@ -215,7 +215,7 @@ function enqueue_frontend_assets() {
 
 ## Front end JS
 
-[.code-highlight: 16-24]
+[.code-highlight: 16-24] 
 
 ```php
 add_action( 'enqueue_block_editor_assets', 'enqueue_block_editor_assets' );
