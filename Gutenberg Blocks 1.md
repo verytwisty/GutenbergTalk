@@ -157,7 +157,7 @@ function enqueue_frontend_assets() {
 
 ```
 
-
+[.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/lib/enqueue-scripts.php`]
 
 ^ 3 functions in this file:
 - `enqueue_block_editor_assets` Hook
@@ -203,6 +203,8 @@ function enqueue_frontend_assets() {
 
 ```
 
+[.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/lib/enqueue-scripts.php`]
+
 ^ `enqueue_block_assets` hook
 - This adds the styles for the block to both the front end and the backend
 	- blocks should look as similar as possible on the front end as on the backend for a good editing experience
@@ -242,6 +244,9 @@ function enqueue_frontend_assets() {
 }
 
 ```
+
+[.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/lib/enqueue-scripts.php`]
+
 
 ^ `enqueue_block_editor_assets`
 - This adds JS to the front end only
@@ -969,7 +974,7 @@ attributes: {} // where to store variables
 clientId: "2e1f42d4-9c2f-434a-9b68-b037a545c438"
 name: "testimonials/static"
 
-**Bolean**
+**Boolean**
 **isSelected: false** :+1: // If the block is selected or not
 isSelectionEnabled: true
 
