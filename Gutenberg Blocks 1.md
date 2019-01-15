@@ -2,6 +2,8 @@ autoscale: true
 
 # [fit] Creating a Testimonials Block.
 
+^ My name is Belinda and I've been studying JS for about a year and a half, having taken Zac Gordons JS master course. I have been studying React and Gutenberg for a couple of months now, so although I'm by no means an expert, I wanted to share with you what I have learnt so far.
+
 ---
 ## This group of talks will teach you:
 
@@ -15,12 +17,18 @@ autoscale: true
 - Other useful features
 
 All the code I'm going to use is here: so you can follow along if you wish.
-https://github.com/verytwisty/vt_gutenberg_testimonials
+`https://github.com/verytwisty/vt_gutenberg_testimonials`
 
 And all the presention files are located here
-https://github.com/verytwisty/GutenbergTalk
+`https://github.com/verytwisty/GutenbergTalk`
 
-^ Show the example editable block
+^ 
+- I wanted to start from the very basics of creating a block, so this talk will probably be split over 2-3 talks.
+- I created some example blocks so you can download them and play about with them on my github repro
+- These slides are also on a github repro if you want to refer back to them later
+- Show the example editable block
+
+
 
 ---
 
@@ -43,27 +51,27 @@ Webpack is a bundler / task runner that was originally designed for packaging up
 ## Getting set up
 
 **NPM**
-https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+`https://docs.npmjs.com/downloading-and-installing-node-js-and-npm`
 
 **Webpack**
-https://webpack.js.org/guides/installation/
+`https://webpack.js.org/guides/installation/`
 
 ---
 
-## What packages do I need?
+## Getting setup with npm and webpack
 
 ![right fit](img/folder-layout.png)
 
 **package.json**
-https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/package.json
+`https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/package.json`
 
 **webpack.config.js**
-https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/webpack.config.js
+`https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/webpack.config.js`
 
 In the terminal 
 
 ```
-cd users/you/your-project-files-here/
+cd /wp-content/plugins/your-gutenberg-plugin/
 
 npm i -D
 
@@ -72,18 +80,21 @@ npm i -D
 
 
 ^
-In your working directory you will also need a package.json file. These will include all the packages you need for your current project. You may not need all of them in every project, but these are the ones we will use for our testimonials block.
-We also need to add a webpack configuration file, so it knows where to save and what to do with your files, we won't worry about this for now, but it is set up for this project so you can play around with it
-To install all the packages for this project go to the folder in the terminal and type in npm i -D, which installs everything in the working folder (not globally)
+- Make a folder in the plugins directory 
+- in this folder you will need a package.json file to download all the npm packages you need
+- If you download the packages.json file from my repro it will give you the packages you need for this project
+- We also need to add a webpack configuration file, so it knows where to import and save the JavaScript files
+- If you don't want to learn about webpack yet, you can use the one in my github project for now.
+-  To install all the packages for this project go to the folder in the terminal and type in npm i -D, which installs everything in your plugins folder
 
 ---
-## Sumblime text users
+## Sublime text users
 
 Sublime text has problems with syntax highlighting JSX, Visual Studio and Atom have built in syntax highlighting.
 
 To get round this you can install a sublime text package called Babel which will display it for you correctly
 
-https://packagecontrol.io/packages/Babel
+`https://packagecontrol.io/packages/Babel`
 
 ---
 ## Creating a plugin.
@@ -134,7 +145,7 @@ function enqueue_assets() {
 	wp_enqueue_style( 'testimonial-block', _get_plugin_url() . '/assets/css/blocks.style.css', [ ], '1.0' );
 }
 
-add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
+add_action( 'enqueue_block_assets', 'enqueue_frontend_assets' );
 
 function enqueue_frontend_assets() {
 
@@ -146,14 +157,13 @@ function enqueue_frontend_assets() {
 
 ```
 
-^ 3 functions in this file:
-- Enque JS and CSS files that will be used in the backend only
-- Enque CSS files that will be used in both the backend and the front end
-- Enque JS that will be used on the front end only
 
-^ `enqueue_block_editor_assets` Hook
+
+^ 3 functions in this file:
+- `enqueue_block_editor_assets` Hook
+- Enque JS and CSS files that will be used in the backend only
 - editor.blocks.js
-	- This is the JS that will make your blocks work!
+	- This is our compiled gutenberg blocks code!
 	- Make sure you load the file after all the other Gutenberg script dependancies
 - blocks.editor.css
 	- This is CSS that loads in styles that *should not* be loaded on the front end
@@ -181,7 +191,7 @@ function enqueue_assets() {
 	wp_enqueue_style( 'testimonial-block', _get_plugin_url() . '/assets/css/blocks.style.css', [ ], '1.0' );
 }
 
-add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
+add_action( 'enqueue_block_assets', 'enqueue_frontend_assets' );
 
 function enqueue_frontend_assets() {
 
@@ -221,7 +231,7 @@ function enqueue_assets() {
 	wp_enqueue_style( 'testimonial-block', _get_plugin_url() . '/assets/css/blocks.style.css', [ ], '1.0' );
 }
 
-add_action( 'enqueue_block_assets', __NAMESPACE__ . '\enqueue_frontend_assets' );
+add_action( 'enqueue_block_assets', 'enqueue_frontend_assets' );
 
 function enqueue_frontend_assets() {
 
@@ -233,15 +243,19 @@ function enqueue_frontend_assets() {
 
 ```
 
-^ enqueue_block_editor_assets
+^ `enqueue_block_editor_assets`
 - This adds JS to the front end only
 	- Good for making things work like carousels, tabs etc
 - use the 'enqueue_block_assets' hook and bail if this is being run on the back end.
-
+- Any Questions so far?
 
 --- 
 
 # Basic Block Architecture
+
+[.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^ Now that we have set up the basic plugin file we can have a look a simple block example file. This can be called anything as long as you remember to import it in the main index.js file
 
 ---
 
@@ -280,6 +294,8 @@ export default registerBlockType(
 );
 ```
 [.footer: `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
+
+^This is the most basic block possible, there is not a lot of code there, but we will go through it as this will be standard across all blocks.
 
 ---
 
@@ -364,11 +380,11 @@ export default registerBlockType(
 ```
 [.footer: **Import Block dependancies**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
-^Import Block Libraries
-Import Gutenberg dependancies that are required in the file.
-These are the two basic depenancies that you will need for every block, there are many others that we will look at later.
+^
+- Import Gutenberg dependancies that are required in the file.
+- These are the two basic depenancies that you will need for every block, there are many others that we will look at later.
 - registerBlockType is pulled in from wp.blocks. This allows you to register your block
-- __ is pulled in from the wp.i18n library. This allows all your text strings to be translated.
+- __ is pulled in from the wp.i18n (internationalisation) library. This allows all your text strings to be translated.
 
 ---
 
@@ -380,6 +396,8 @@ These are the two basic depenancies that you will need for every block, there ar
 __('This string is ready for translations in the .pot file', '_vt');
 
 ```
+
+^ This will look familiar to anyone building themes, the __ allows the text to be translated using .pot files
 
 ---
 
@@ -422,7 +440,8 @@ export default registerBlockType(
 [.footer: **Import Block dependancies**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
 ^create the block
-This exports the block ready for import into your main index.js file. All your block code will be within this:
+- This exports the block ready to be imported into Gutenberg,
+- All your block code will be within these brackets
 
 ---
 
@@ -465,6 +484,8 @@ export default registerBlockType(
 [.footer: **Block Name**  `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
 ^
+- We need to give it a programatic name that WordPress will use to find your block
+- Every block has to have a different name to avoid conflicts with other blocks
 - The first part is the name space - important this is unique as we don't want this to conflict with other blocks
 	- The name space can be the same across all your blocks
 - The second part is your individual block name
@@ -623,6 +644,9 @@ export default registerBlockType(
 
 ![80%](img/block-category.png)
 
+
+^in the future we will be able to create our own block category if you are making a suite of blocks
+
 ---
 
 [.code-highlight: 13 ]
@@ -671,7 +695,9 @@ export default registerBlockType(
 ## Icons can be either:
 
 - A Dashicon
+	- https://developer.wordpress.org/resource/dashicons/#dashboard
 - An JSX svg icon
+	- svg to jsx converter `https://svg2jsx.herokuapp.com/`
 
 ```js
 icon: 'admin-site',
@@ -686,7 +712,12 @@ icon: <svg width="20px" height="20px" viewBox="0 0 384 512">
 </svg>,
  ```
 
-[.footer: convert svg to JSX with this: https://svg2jsx.herokuapp.com/]
+
+^ 
+- dashicon name
+- a JSX SVG icon can be added here
+- convert svg to JSX with this: https://svg2jsx.herokuapp.com/
+
 
 ---
 
@@ -776,12 +807,18 @@ export default registerBlockType(
 
 [.footer: **Edit**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
-^ To use JSX you need to have Bable installed, otherwise you'll have to create the markup using react or JavaScript
+^ 
+- The edit paramater is where the meat of the Gutenberg block will go.
+- This is the code that is shown on the backend of the site.
+- this is a function that takes one paramiter - props, which is the default properties of the JS object.
+- We are going to go through this in more detail later on
 
 ---
 
 
 ![fit](img/block-backend.png)
+
+^ This is the html of my static testimonial block, as you can see a div with the classname and some html is returned in the editor
 
 ---
 
@@ -824,10 +861,18 @@ export default registerBlockType(
 
 [.footer: **Save**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/0-starter-block/index.js`]
 
+^ 
+- the save parameter is what will be saved in the WP database.
+- also takes a function with one paramiter - props again
+- The HTML that is saved in here will be displayed on the front end of the site
+
 ---
 
 
 ![fit](img/block-frontend.png)
+
+^ The HTML of the block in the front end
+- Any Questions so far?
 
 ---
 
@@ -870,6 +915,8 @@ edit: props => {
 [.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
 
 ^ The First Block we are going to make is a Static Block that is not editable by the user
+- I'm not going to go though all of the block names and properties again, we are going to concentrate on edit & save
+- If you want to follow along go to the url in the footer
 
 ---
 
@@ -907,7 +954,8 @@ edit: props => {
 
 [.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
 
-^ First we pull in the props (or properties) of our new Block. This structure allows you to call named variables in the props object to refer back to. It is the same as writing props.className
+^ First we pull in the props (or properties) of our new Block. 
+- These are the standard properties that all Gutenberg blocks have.
 
 ---
 
@@ -917,27 +965,42 @@ edit: props => {
 attributes: {} // where to store variables 
 
 **Generated Strings**
-className: "wp-block-testimonials-static" // Unique Class Name so styles don't conflict
+**className: "wp-block-testimonials-static"** :+1: // Unique Class Name so styles don't conflict
 clientId: "2e1f42d4-9c2f-434a-9b68-b037a545c438"
 name: "testimonials/static"
 
 **Bolean**
-isSelected: false // If the block is selected or not
+**isSelected: false** :+1: // If the block is selected or not
 isSelectionEnabled: true
 
 **Functions**
 insertBlocksAfter: ƒ ()
 mergeBlocks: ƒ ()
 onReplace: ƒ ()
-setAttributes: ƒ () // function to call to set variables
+**setAttributes: ƒ ()** :+1: // function to call to set variables
 toggleSelection: ƒ ()
+
+^ Props are parameters of the blocks
+- These are the parameters that you would find in every Gutenberg block
+- Attributes is a place where we can store variables
+	- for example if a user types something in, it is stored in attributes before it is saved to the database
+- Generated string variables
+	- for example classname is generated so you have a unique classname for your outputted div to make sure your css doesn't clash with other blocks
+- Bolean variables
+	- for example 'isSelected' tests whether or not a block is currently being selected
+- Functions
+	- these are helper functions that you can hook into to do stuff (so you don't have to write the functions yourself)
+	- for example setAttributes works with the attributes parameter, is an easy way to set and unset attributes.
+
+^ - Any Questions about props?
 
 --- 
 
-## JavaScript Dot Notation
+## Deconstructed Variables
+
 
 ```js
-props{
+props{ // JavaScript Object
 	attributes: {},
 	className: "wp-block-testimonials-static",
 	clientId: "2e1f42d4-9c2f-434a-9b68-b037a545c438",
@@ -950,15 +1013,59 @@ props{
 	setAttributes: ƒunction( ... ),
 	toggleSelection: ƒunction( ... ),
 }
+
+const { className } = props; // ES6 variable a param from a JS object
+
+var className = props.className; // JavaScript variable a param from a JS object
+
+$className = props->className; // php variable calling a param from a php object
 ```
 
+
+
+^ 
+- You will see deconstructed variables a lot in Gutenberg code, so I wanted to go through it
+- This is an ES6 / Reacty type way of getting information from an object
+- What all the three ways of pulling out a parameter are the same, just the syntax is different
+- Any questions about variables?
+
+---
+
+[.code-highlight: 2 ]
+
+```js
+edit: props => {
+	const { className, isSelected } = props;
+	return (
+		<div className={ className }>
+			<div className="image">
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/David-Brent.jpg" />
+			</div>
+			<div className="info">
+				<h2>David Brent</h2>
+				<h3>General Manager</h3>
+				<div className="text">
+					<p>People see me, and they see the suit, and they go: 'you're not 
+					fooling anyone', they know I'm rock and roll through and through.</p> 
+					<p>But you know that old thing, live fast, die young? Not my way. 
+					Live fast, sure, live too bloody fast sometimes, but die young? Die old.</p>
+				</div>
+				<a href="https://www.wernham-hogg-limited.com" className="website">Wernham Hogg</a>
+			</div>
+			{
+				isSelected && (
+					<div className="warn"><p>Sorry you can't edit this block</p></div>
+				)
+			}
+		</div>
+	);
+},
+
 ```
-{ className } = props
 
-props.className === className;
+[.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
 
-
-```
+^- Here we are going to call out className and isSelected from the props
 
 ---
 
@@ -1018,6 +1125,8 @@ edit: props => {
 <div className="another-container"></div>
 ```
 
+^ - Any Questions about writing JSX?
+
 ---
 
 [.code-highlight: 19-23 ]
@@ -1053,7 +1162,8 @@ edit: props => {
 
 [.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
 
-^ The Block can look different when the user has selected the block - this can be useful for adding information or displaying information
+^ - The Block can look different when the user has selected the block
+- Only when the block isSelected will the additional html appear
 
 ---
 
@@ -1072,6 +1182,46 @@ edit: props => {
 }
 ```
 
+^ - Any Questions?
+
+---
+```js
+save: props => {
+	const { className } = props;
+	return (
+		<div className={ className }>
+			<div className="image">
+				<img src="/wp-content/plugins/vt_testimonials/assets/images/David-Brent.jpg" />
+			</div>
+			<div className="info">
+				<h2>David Brent</h2>
+				<h3>General Manager</h3>
+				<div className="text">
+					<p>People see me, and they see the suit, and they go: 'you're not fooling anyone', they know I'm rock and roll through and through.</p> 
+					<p>But you know that old thing, live fast, die young? Not my way. Live fast, sure, live too bloody fast sometimes, but die young? Die old.</p>
+				</div>
+				<a href="https://www.wernham-hogg-limited.com" className="website">Wernham Hogg</a>
+			</div>
+		</div>
+	);
+
+},
+```
+
+[.footer: **Static Block**  | `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/1-static-block/index.js`]
+
+^ 
+- The save function is similar to the edit, except that we don't have isSelected in there
+- in the save settings, bring in the props again, then add the html in
+
+
+---
+
+#:tada: Congratulations :tada:
+
+^Congratulations! You have made your first block!
+- Any Questions about what we have learnt so far?
+
 ---
 
 ## All information from this talk has been learnt on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information
@@ -1082,8 +1232,18 @@ https://javascriptforwp.com/product/gutenberg-block-development-course/
 
 ## Resources
 
+[Gutenberg Handbook](https://wordpress.org/gutenberg/handbook/)
 [Gutenberg starter theme](https://github.com/ahmadawais/create-guten-block)
 [Gutenberg block reference ](https://wp-storybook.netlify.com/?selectedKind=Components%7CBaseControl&selectedStory=Basic&full=0&addons=1&stories=1&panelRight=1&addonPanel=storybook%2Factions%2Factions-panel)
+[Gutenberg starter tutorial on CSS Tricks](https://css-tricks.com/learning-gutenberg-1-series-intro/)
 [Coding a Custom Block Type for Gutenberg Block Editor (video) ](https://www.youtube.com/watch?v=Mv68Sa-iHyo&feature=youtu.be)
 [WordPress Webinar: Building your First Gutenberg Block (video) ](https://www.youtube.com/watch?v=2wM6VyJ9Dp4)
+[Learn React Tutorial](https://reactjs.org/tutorial/tutorial.html)
+[About Bable](https://babeljs.io/)
+[Gutenberg Git Hub Repro](https://github.com/WordPress/gutenberg)
 
+---
+
+#Come back for the rest of the talk next month
+
+^It gets a lot harder!
