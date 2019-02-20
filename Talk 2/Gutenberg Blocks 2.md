@@ -6,7 +6,7 @@ autoscale: true
 
 ---
 
-# [fit] 📚👩‍🏫 Qucik Recap of part I 👩‍🎓👨🏾‍🎓
+# [fit] 📚👩‍🏫 Quick Recap of part I 👩‍🎓👨🏾‍🎓
 
 ^ This is my second talk in the series, so I'm going to quickly recap what we learnt in the first talk
 
@@ -48,7 +48,7 @@ export default registerBlockType(
 );
 ```
 
-^ We looked at how to import styles, internationalisation and the register block component. We learnt about namespacing and allowed characters for block names. We looked at the title attribute, description, block categories, icons & keywords. We looked at how the edit object displays the content in the back end, and how the save object is what is saved to the database. 
+^ We looked at how to import styles, internationalisation and the register block component. We learned about namespacing and allowed characters for block names. We looked at the title attribute, description, block categories, icons & keywords. We looked at how the edit object displays the content in the back end, and how the save object is what is saved to the database. 
 
 ---
 
@@ -80,7 +80,7 @@ edit: props => {
 	);
 },
 ```
-^ We looked at props and what they are, we learnt about JSX and how to use it in the Gutenberg Component, and we looked at the isSelected prop. We also looked at deconstructed variables
+^ We looked at props and what they are, we learned about JSX and how to use it in the Gutenberg Component, and we looked at the isSelected prop. We also looked at deconstructed variables
 
 ---
 
@@ -138,7 +138,7 @@ attributes: {
 		source:    'children' || 'attribute' || 'text',
 		attribute: 'href' || 'alt' || 'src' || 'any html attribute',
 		selector:  'tag' || '.className' || '#ID',		
-		default:   'arbitary string',
+		default:   'arbitrary string',
 	},	
 }
 
@@ -146,7 +146,7 @@ attributes: {
 
 ^ 
 - Lets have a look at the type of properties an attribute can have
-- Type this is the type of info that it will recieve . Can take an array (for paragraph and h tags because the text is an array of children inside the tag). Can also take string, number
+- Type this is the type of info that it will receive . Can take an array (for paragraph and h tags because the text is an array of children inside the tag). Can also take string, number
 - Source can take children, attribute or text. Children is used for p and h tags, attributes for things like images and links, and text for input fields
 - If your source is set to attribute, you specify which attribute here... for a link it's the href, for an image it's src etc. We don't need this for paragraph tags
 - selector can be a HTML tag, a className or an ID, this is important as this is how Gutenberg will know where to re-import the attributes from the database once the page has loaded
@@ -331,7 +331,7 @@ edit: props => {
 	);
 },
 ```
-[.footer: **On Chnage Event** https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/2-edit-text-block/index.js ]
+[.footer: **On Change Event** https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/2-edit-text-block/index.js ]
 
 
 ^ 
@@ -397,7 +397,7 @@ save: props => {
 
 [.footer: **Save Function** https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/2-edit-text-block/index.js ]
 
-^ Going back to our editable block componentent - in the save section we will pull in the title attribute from props, like we did in the edit section, and then add the title variable value to the JSX. Questions?
+^ Going back to our editable block component - in the save section we will pull in the title attribute from props, like we did in the edit section, and then add the title variable value to the JSX. Questions?
 
 ---
 
@@ -510,12 +510,12 @@ save: props => {
 [.footer: **Save Function** https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/2-edit-text-block/index.js ]
 
 ^ As before we are going to bring in the attributes into the save function and then add it to the JSX. Any Questions about that?
-Congratluations, that is our first editable block. Now we are going to look how to edit the image and url
+Congratulations, that is our first editable block. Now we are going to look how to edit the image and url
 
 ---
 ## Adding new componants to the project
 
-1. Import new componant
+1. Import new component
 2. Add new attributes
 3. Add in Component to the edit object
 4. Add in new update attributes function
@@ -560,7 +560,7 @@ export default registerBlockType(
 	},
 );
 ```
-[.footer: **Import Componants** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/3-editable-block/index.js` ]
+[.footer: **Import Components** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/3-editable-block/index.js` ]
 
 ^ Import the Media Upload Component
 
@@ -667,7 +667,7 @@ edit: props => {
 ```
 [.footer: **Media Upload** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/3-editable-block/index.js` ]
 
-^ The first part tests to see if the imageID has been set, the explaination mark means not set. If this has not been set we are going to show the media uploader component.
+^ The first part tests to see if the imageID has been set, the explanation mark means not set. If this has not been set we are going to show the media uploader component.
 - onSelect - which function to run when the user has selected an image (we will look at this later)
 - type - this can be image, video, file or all
 - the value is the ID of the image chosen
@@ -909,7 +909,7 @@ edit: props => {
 ```
 [.footer: **Link setAttributes** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/3-editable-block/index.js` ]
 
-^ - you can also add the update function inline
+^ - you can also add the update function in line
 - the link has the url and name from the attributes props
 - Questions?
 
@@ -1025,7 +1025,7 @@ edit: props => {
 [.footer: **Add Block Controlls JSX** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
 ^ In the edit object add in the Block Controls component
-- within the block controls we are going to add in the Alignment toolbar
+- within the block controls we are going to add in the Alignment tool bar
 - Remember when I said that the return statement can only have one parent element? I was kind of lying!
 - It can also return an array of elements, so long as each item in the array only has one top level element we are golden!
 
@@ -1051,9 +1051,9 @@ edit: props => {
 
 [.footer: **Add Change Attributes** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
-^ - We can add in a change attribute function inline as well
-- in the JSX we can add a new inline style to a div to update how the text is going to be displayed
-- note in css there should be a hyphen between text-align, in JS you can't have hypens in this context (this is the same with vanilla JS) so we have to use cammel case for style attributes. This will output as normal css in the browser.
+^ - We can add in a change attribute function in line as well
+- in the JSX we can add a new in line style to a div to update how the text is going to be displayed
+- note in css there should be a hyphen between text-align, in JS you can't have hyphens in this context (this is the same with vanilla JS) so we have to use camel case for style attributes. This will output as normal css in the browser.
 
 ---
 
@@ -1107,7 +1107,7 @@ export default registerBlockType(
 	},
 );
 ```
-[.footer: **Import BlockAlignment Componant** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
+[.footer: **Import BlockAlignment Component** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
 ^ Lastly we are going to add in the Block Controls component
 
@@ -1166,7 +1166,7 @@ edit: props => {
 
 [.footer: **Add Block Alignment Toolbar JSX** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
-^ In the BlockControls toolbar add in the BlockAlignmentToolbar before or after the alignment toolbar
+^ In the BlockControls tool bar add in the BlockAlignmentToolbar before or after the alignment tool bar
 
 ---
 [.code-highlight: 1-5, 16 ]
@@ -1200,8 +1200,8 @@ edit: props => {
 [.footer: **Update Attributes** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
 ^ 
-- Add in the update attributes function inline as normal.
-- You need an extra function to make this work... Gutenberg wrapps every block in a parent container that you can't change in the edit object
+- Add in the update attributes function in line as normal.
+- You need an extra function to make this work... Gutenberg wraps every block in a parent container that you can't change in the edit object
 - the getEditWrapperProps function adds a data-align attribute to parent container of each block, which will automatically change the width of the parent container of the block - this is needed to make the block full width.
 
 ---
@@ -1232,7 +1232,7 @@ save: props => {
 ^ In the save function add in the block alignment class to the parent block. If you write it in exactly this way the classname is the same as the default block, so you will get this to work out of the box. 
 - If you want to add your own styles that aren't the default, you can change the class name here and write your own styles
 - the classnames function allows you to add in more than one classname as React doesn't allow you to do this out of the box
-- the way of writing variables with backticks is an ES6y type way of adding in a string of text with one variable between a $ and the curly braces
+- the way of writing variables with back ticks is an ES6y type way of adding in a string of text with one variable between a $ and the curly braces
 
 ---
 
@@ -1274,7 +1274,7 @@ export default registerBlockType(
 [.footer: **Attributes** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
 ^ 
-- You can also add options and extra information in the sidepanel
+- You can also add options and extra information in the side panel
 - Import the InspectorControls, PanelBody, PanelRow from the wp.editor
 
 
@@ -1305,7 +1305,7 @@ edit: props => {
 [.footer: **Edit** `https://github.com/verytwisty/vt_gutenberg_testimonials/blob/master/blocks/4-extended-block/index.js` ]
 
 ^
-- Add in the InspectorControls componant in the edit object
+- Add in the InspectorControls component in the edit object
 - You can add in different sections to the control panel to break up the options
 - A Panel body can have a title added to it
 - Panel Row will add a section within the panel body
@@ -1438,8 +1438,8 @@ edit: props => {
 
 ^
 - the onChange function changes the colorPallet attribute
-- the we can add an inline style to the parent div (or any other div)
-- The css attribute has to be cammel case again and the value is taken from the colorPalette attribute
+- the we can add an in line style to the parent div (or any other div)
+- The css attribute has to be camel case again and the value is taken from the colorPalette attribute
 - Any Questions?
 
 ---
@@ -1467,7 +1467,7 @@ save: props => {
 
 ^ 
 - In the save object, we can pull in the colorPalette from props
-- Then we can add an inline style to the parent div
+- Then we can add an in line style to the parent div
 
 ---
 ```php
@@ -1512,7 +1512,7 @@ add_theme_support(
 #:tada: Congratulations :tada:
 
 ^Congratulations! We have a fully editable block!
-- Any Questions about what we have learnt so far?
+- Any Questions about what we have learned so far?
 
 ---
 
@@ -1734,7 +1734,7 @@ add_theme_support(
 
 ---
 
-## All information from this talk has been learnt on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information...
+## All information from this talk has been learned on Zac Gordon's Gutenberg Block Development Course, please check it out for more detail and information...
 
 
 ### 50% off all Gutenberg courses for one week!
