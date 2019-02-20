@@ -75,6 +75,8 @@ cd /wp-content/plugins/your-gutenberg-plugin/
 
 npm i -D
 
+npm run dev
+
 ```
 
 
@@ -86,6 +88,7 @@ npm i -D
 - We also need to add a webpack configuration file, so it knows where to import and save the JavaScript files
 - If you don't want to learn about webpack yet, you can use the one in my github project for now.
 -  To install all the packages for this project go to the folder in the terminal and type in npm i -D, which installs everything in your plugins folder
+- When your ready to start working press npm run dev
 
 ---
 ## Sublime text users
